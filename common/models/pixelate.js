@@ -43,9 +43,8 @@ module.exports = function(Pixelate) {
 };
 
 function pixelate(area, pixelSize, image) {
-	
-	for(let x = area.x; x < area.xSize; x += pixelSize){
-    	for(let y = area.y; y < area.ySize; y += pixelSize){
+	for(let x = area.x; x < area.x + area.xSize; x += pixelSize){
+    	for(let y = area.y; y < area.y + area.ySize; y += pixelSize){
       		let averageRGB = getAverageRGB(x, y, area, pixelSize, image);
       		setAverageRGB(x, y, area, pixelSize, averageRGB, image);
 		}
@@ -56,8 +55,8 @@ function getAverageRGB(startX, startY, area, pixelSize, image) {
 	let averageRGB = {r: 0, g: 0, b: 0, a: 0};
 	let pixelCount = 0;
 
-	for(let x = startX; checkLimit(x, startX + pixelSize, area.xSize); x++){
-		for(let y = startY; checkLimit(y, startY + pixelSize, area.ySize); y++){
+	for(let x = startX; checkLimit(x, startX + pixelSize, area.x + area.xSize); x++){
+		for(let y = startY; checkLimit(y, startY + pixelSize, area.y + area.ySize); y++){
 			pixelCount++;
 			let rgb = Jimp.intToRGBA(image.getPixelColor(x, y));
 			averageRGB = {r: averageRGB.r + rgb.r, g: averageRGB.g + rgb.g, b: averageRGB.b + rgb.b, a: rgb.a};
@@ -70,13 +69,13 @@ function getAverageRGB(startX, startY, area, pixelSize, image) {
 }
 
 function setAverageRGB(startX, startY, area, pixelSize, rgb, image) {
-	for(let x = startX; checkLimit(x, startX + pixelSize, area.xSize); x++){
-		for(let y = startY; checkLimit(y, startY + pixelSize, area.ySize); y++){
+	for(let x = startX; checkLimit(x, startX + pixelSize, area.x + area.xSize); x++){
+		for(let y = startY; checkLimit(y, startY + pixelSize, area.y + area.ySize); y++){
 			image.setPixelColor(Jimp.rgbaToInt(rgb.r, rgb.g, rgb.b, rgb.a), x, y);
 		}
 	}
 }
 
-function checkLimit(pos, limit, imageLimit){
-	return pos < limit && pos < imageLimit;
+function checkLimit(pos, pixelLimit, areaLimit){
+	return pos < pixelLimit && pos < areaLimit;
 }
