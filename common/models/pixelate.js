@@ -40,6 +40,20 @@ module.exports = function(Pixelate) {
 		description: "Pixelates an image",
 		returns: {type: 'string', root: 'true'}
 	});
+
+	Pixelate.test = function (next) {
+		next(null, "hola");
+	}
+
+	Pixelate.remoteMethod("test", {
+		accepts: [],
+		http: {
+			path: '/test',
+			verb: 'get'
+		},
+		description: "Testing method",
+		returns: {type: 'string', root: 'true'}
+	});
 };
 
 function pixelate(area, pixelSize, image) {
