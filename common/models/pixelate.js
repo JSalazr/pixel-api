@@ -9,14 +9,14 @@ module.exports = function(Pixelate) {
 
 			if(area != undefined){
 				if(area.x + area.xSize > width || area.y + area.ySize > height)
-					return next("Selected area out of range.")
+					return next("Selected area out of range.");
 			}else{
 				area = {
 					x: 0,
 					y: 0,
 					xSize: width,
 					ySize: height
-				}
+				};
 			}
 
 			pixelate(area, pixelSize, image);
