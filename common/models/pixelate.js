@@ -3,7 +3,7 @@ var Jimp = require('jimp');
 
 module.exports = function(Pixelate) {
   	Pixelate.pixelate = function (image64, pixelSize, area, next) {
-    	Jimp.read(Buffer.from(image64, 'base64')).then((image) => {
+    	Jimp.read(Buffer.from(image64.split(',')[1], 'base64')).then((image) => {
 			let width = image.bitmap.width;
 			let height = image.bitmap.height;
 
